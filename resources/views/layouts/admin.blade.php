@@ -226,95 +226,15 @@
                         </a>
                     </li>
                     
-                    <!-- Akademik & PPDB Group -->
-                    <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center justify-content-between {{ request()->routeIs($routePrefix . 'siswa', $routePrefix . 'guru', $routePrefix . 'ppdb') ? 'active' : '' }}"
-                            data-manual-toggle="collapse" href="#collapseSchoolAkademik" role="button"
-                            aria-expanded="{{ request()->routeIs($routePrefix . 'siswa', $routePrefix . 'guru', $routePrefix . 'ppdb') ? 'true' : 'false' }}"
-                            aria-controls="collapseSchoolAkademik">
-                            <div class="d-flex align-items-center gap-2">
-                                <i class="fa-solid fa-school fs-6"></i>
-                                <span>Akademik & PPDB</span>
-                            </div>
-                            <i class="fa-solid fa-chevron-down toggle-icon" style="font-size: 0.65rem;"></i>
-                        </a>
-                        <div class="collapse {{ request()->routeIs($routePrefix . 'siswa', $routePrefix . 'guru', $routePrefix . 'ppdb') ? 'show' : '' }}"
-                            id="collapseSchoolAkademik">
-                            <ul class="nav flex-column ms-2 mt-0 ps-2 border-start border-white-10">
-                                <li class="nav-item">
-                                    <a href="{{ route($routePrefix . 'siswa') }}"
-                                        class="nav-link py-2 {{ request()->routeIs($routePrefix . 'siswa') ? 'active' : '' }}">
-                                        <i class="fa-solid fa-user-graduate fs-7"></i>
-                                        <span>Kelola Siswa</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route($routePrefix . 'guru') }}"
-                                        class="nav-link py-2 {{ request()->routeIs($routePrefix . 'guru') ? 'active' : '' }}">
-                                        <i class="fa-solid fa-chalkboard-user fs-7"></i>
-                                        <span>Kelola Guru</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route($routePrefix . 'ppdb') }}"
-                                        class="nav-link py-2 {{ request()->routeIs($routePrefix . 'ppdb') ? 'active' : '' }}">
-                                        <i class="fa-solid fa-clipboard-list fs-7"></i>
-                                        <span>Verifikasi PPDB</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <!-- Profil & Fasilitas Group -->
-                    <li class="nav-item">
-                        <a class="nav-link d-flex align-items-center justify-content-between {{ request()->routeIs($routePrefix . 'fasilitas', $routePrefix . 'ekstrakurikuler', $routePrefix . 'prestasi') ? 'active' : '' }}"
-                            data-manual-toggle="collapse" href="#collapseSchoolProfil" role="button"
-                            aria-expanded="{{ request()->routeIs($routePrefix . 'fasilitas', $routePrefix . 'ekstrakurikuler', $routePrefix . 'prestasi') ? 'true' : 'false' }}"
-                            aria-controls="collapseSchoolProfil">
-                            <div class="d-flex align-items-center gap-2">
-                                <i class="fa-solid fa-building-columns fs-6"></i>
-                                <span>Profil & Fasilitas</span>
-                            </div>
-                            <i class="fa-solid fa-chevron-down toggle-icon" style="font-size: 0.65rem;"></i>
-                        </a>
-                        <div class="collapse {{ request()->routeIs($routePrefix . 'fasilitas', $routePrefix . 'ekstrakurikuler', $routePrefix . 'prestasi') ? 'show' : '' }}"
-                            id="collapseSchoolProfil">
-                            <ul class="nav flex-column ms-2 mt-0 ps-2 border-start border-white-10">
-                                <li class="nav-item">
-                                    <a href="{{ route($routePrefix . 'fasilitas') }}"
-                                        class="nav-link py-2 {{ request()->routeIs($routePrefix . 'fasilitas') ? 'active' : '' }}">
-                                        <i class="fa-solid fa-school-flag fs-7"></i>
-                                        <span>Kelola Fasilitas</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route($routePrefix . 'ekstrakurikuler') }}"
-                                        class="nav-link py-2 {{ request()->routeIs($routePrefix . 'ekstrakurikuler') ? 'active' : '' }}">
-                                        <i class="fa-solid fa-people-group fs-7"></i>
-                                        <span>Kelola Ekstra</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route($routePrefix . 'prestasi') }}"
-                                        class="nav-link py-2 {{ request()->routeIs($routePrefix . 'prestasi') ? 'active' : '' }}">
-                                        <i class="fa-solid fa-trophy fs-7"></i>
-                                        <span>Kelola Prestasi</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <!-- Akademik & Informasi Group -->
+                    <!-- Informasi & Kabar Group -->
                     <li class="nav-item">
                         <a class="nav-link d-flex align-items-center justify-content-between {{ request()->routeIs($routePrefix . 'berita', $routePrefix . 'event', $routePrefix . 'galeri') ? 'active' : '' }}"
                             data-manual-toggle="collapse" href="#collapseAkademik" role="button"
                             aria-expanded="{{ request()->routeIs($routePrefix . 'berita', $routePrefix . 'event', $routePrefix . 'galeri') ? 'true' : 'false' }}"
                             aria-controls="collapseAkademik">
                             <div class="d-flex align-items-center gap-2">
-                                <i class="fa-solid fa-graduation-cap fs-6"></i>
-                                <span>Akademik & Info</span>
+                                <i class="fa-solid fa-newspaper fs-6"></i>
+                                <span>Informasi & Kabar</span>
                             </div>
                             <i class="fa-solid fa-chevron-down toggle-icon" style="font-size: 0.65rem;"></i>
                         </a>

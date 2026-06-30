@@ -23,20 +23,14 @@ Route::middleware(['school'])->prefix('s/{school_slug}')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     // Public Tenant Homepages
-    Route::get('/', [SchoolController::class, 'index'])->name('home');
-    Route::get('/alumni-portal', [PublicController::class, 'index'])->name('alumni.home');
+    Route::get('/', [PublicController::class, 'index'])->name('home');
+    Route::get('/alumni-portal', function() {
+        return redirect()->route('home');
+    })->name('alumni.home');
     
-    // Public Tenant Academic pages
+    // Public Tenant Pages
     Route::get('/profil', [PublicController::class, 'profil'])->name('profil');
     Route::get('/ikatan-alumni', [PublicController::class, 'ikatanAlumni'])->name('ikatan-alumni');
-    Route::get('/siswa', [SchoolController::class, 'siswa'])->name('siswa');
-    Route::get('/guru', [SchoolController::class, 'guru'])->name('guru');
-    Route::get('/ppdb', [SchoolController::class, 'ppdb'])->name('ppdb');
-    Route::post('/ppdb/daftar', [SchoolController::class, 'daftar'])->name('ppdb.daftar');
-    Route::get('/ppdb/status', [SchoolController::class, 'status'])->name('ppdb.status');
-    Route::get('/fasilitas', [SchoolController::class, 'fasilitas'])->name('fasilitas');
-    Route::get('/ekstrakurikuler', [SchoolController::class, 'ekstrakurikuler'])->name('ekstrakurikuler');
-    Route::get('/prestasi', [SchoolController::class, 'prestasi'])->name('prestasi');
     Route::get('/kontak', [PublicController::class, 'kontak'])->name('kontak');
     Route::post('/kontak/submit', [PublicController::class, 'submitKontak'])->name('kontak.submit');
     
@@ -99,30 +93,7 @@ Route::middleware(['school'])->prefix('s/{school_slug}')->group(function () {
         Route::post('/galeri', [AdminController::class, 'submitGaleri'])->name('admin.galeri.submit');
         Route::delete('/galeri/{id}', [AdminController::class, 'deleteGaleri'])->name('admin.galeri.delete');
 
-        // School Admin Management
-        Route::get('/siswa', [AdminSchoolController::class, 'siswa'])->name('admin.siswa');
-        Route::post('/siswa', [AdminSchoolController::class, 'submitSiswa'])->name('admin.siswa.submit');
-        Route::delete('/siswa/{id}', [AdminSchoolController::class, 'deleteSiswa'])->name('admin.siswa.delete');
 
-        Route::get('/guru', [AdminSchoolController::class, 'guru'])->name('admin.guru');
-        Route::post('/guru', [AdminSchoolController::class, 'submitGuru'])->name('admin.guru.submit');
-        Route::delete('/guru/{id}', [AdminSchoolController::class, 'deleteGuru'])->name('admin.guru.delete');
-
-        Route::get('/ppdb', [AdminSchoolController::class, 'ppdb'])->name('admin.ppdb');
-        Route::post('/ppdb/{id}/status', [AdminSchoolController::class, 'verifyPPDB'])->name('admin.ppdb.verify');
-        Route::delete('/ppdb/{id}', [AdminSchoolController::class, 'deletePPDB'])->name('admin.ppdb.delete');
-
-        Route::get('/fasilitas', [AdminSchoolController::class, 'fasilitas'])->name('admin.fasilitas');
-        Route::post('/fasilitas', [AdminSchoolController::class, 'submitFasilitas'])->name('admin.fasilitas.submit');
-        Route::delete('/fasilitas/{id}', [AdminSchoolController::class, 'deleteFasilitas'])->name('admin.fasilitas.delete');
-
-        Route::get('/ekstrakurikuler', [AdminSchoolController::class, 'ekstrakurikuler'])->name('admin.ekstrakurikuler');
-        Route::post('/ekstrakurikuler', [AdminSchoolController::class, 'submitEkstrakurikuler'])->name('admin.ekstrakurikuler.submit');
-        Route::delete('/ekstrakurikuler/{id}', [AdminSchoolController::class, 'deleteEkstrakurikuler'])->name('admin.ekstrakurikuler.delete');
-
-        Route::get('/prestasi', [AdminSchoolController::class, 'prestasi'])->name('admin.prestasi');
-        Route::post('/prestasi', [AdminSchoolController::class, 'submitPrestasi'])->name('admin.prestasi.submit');
-        Route::delete('/prestasi/{id}', [AdminSchoolController::class, 'deletePrestasi'])->name('admin.prestasi.delete');
     });
 
 });
@@ -170,27 +141,5 @@ Route::middleware(['auth', 'superadmin'])->prefix('superadmin')->group(function 
     Route::post('/galeri', [AdminController::class, 'submitGaleri'])->name('superadmin.galeri.submit');
     Route::delete('/galeri/{id}', [AdminController::class, 'deleteGaleri'])->name('superadmin.galeri.delete');
 
-    Route::get('/siswa', [AdminSchoolController::class, 'siswa'])->name('superadmin.siswa');
-    Route::post('/siswa', [AdminSchoolController::class, 'submitSiswa'])->name('superadmin.siswa.submit');
-    Route::delete('/siswa/{id}', [AdminSchoolController::class, 'deleteSiswa'])->name('superadmin.siswa.delete');
 
-    Route::get('/guru', [AdminSchoolController::class, 'guru'])->name('superadmin.guru');
-    Route::post('/guru', [AdminSchoolController::class, 'submitGuru'])->name('superadmin.guru.submit');
-    Route::delete('/guru/{id}', [AdminSchoolController::class, 'deleteGuru'])->name('superadmin.guru.delete');
-
-    Route::get('/ppdb', [AdminSchoolController::class, 'ppdb'])->name('superadmin.ppdb');
-    Route::post('/ppdb/{id}/status', [AdminSchoolController::class, 'verifyPPDB'])->name('superadmin.ppdb.verify');
-    Route::delete('/ppdb/{id}', [AdminSchoolController::class, 'deletePPDB'])->name('superadmin.ppdb.delete');
-
-    Route::get('/fasilitas', [AdminSchoolController::class, 'fasilitas'])->name('superadmin.fasilitas');
-    Route::post('/fasilitas', [AdminSchoolController::class, 'submitFasilitas'])->name('superadmin.fasilitas.submit');
-    Route::delete('/fasilitas/{id}', [AdminSchoolController::class, 'deleteFasilitas'])->name('superadmin.fasilitas.delete');
-
-    Route::get('/ekstrakurikuler', [AdminSchoolController::class, 'ekstrakurikuler'])->name('superadmin.ekstrakurikuler');
-    Route::post('/ekstrakurikuler', [AdminSchoolController::class, 'submitEkstrakurikuler'])->name('superadmin.ekstrakurikuler.submit');
-    Route::delete('/ekstrakurikuler/{id}', [AdminSchoolController::class, 'deleteEkstrakurikuler'])->name('superadmin.ekstrakurikuler.delete');
-
-    Route::get('/prestasi', [AdminSchoolController::class, 'prestasi'])->name('superadmin.prestasi');
-    Route::post('/prestasi', [AdminSchoolController::class, 'submitPrestasi'])->name('superadmin.prestasi.submit');
-    Route::delete('/prestasi/{id}', [AdminSchoolController::class, 'deletePrestasi'])->name('superadmin.prestasi.delete');
 });

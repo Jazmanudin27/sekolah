@@ -20,7 +20,7 @@ class PublicController extends Controller
 {
     public function portalHome()
     {
-        $schools = \App\Models\School::withCount(['users', 'students', 'teachers'])->get();
+        $schools = \App\Models\School::withCount(['users'])->get();
         return view('public.portal_directory', compact('schools'));
     }
 

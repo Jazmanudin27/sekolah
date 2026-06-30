@@ -346,7 +346,5 @@ class DatabaseSeeder extends Seeder
             'category' => 'sekolah',
             'school_id' => $school2->id,
         ]);
-
-        $this->call(SchoolSeeder::class);
     }
 }

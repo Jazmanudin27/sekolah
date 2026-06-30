@@ -34,12 +34,6 @@ return new class extends Migration
         // 2. Add school_id column to other tables
         $tables = [
             'users',
-            'students',
-            'teachers',
-            'admissions',
-            'facilities',
-            'extracurriculars',
-            'achievements',
             'posts',
             'events',
             'donations',
@@ -64,12 +58,6 @@ return new class extends Migration
     {
         $tables = [
             'users',
-            'students',
-            'teachers',
-            'admissions',
-            'facilities',
-            'extracurriculars',
-            'achievements',
             'posts',
             'events',
             'donations',

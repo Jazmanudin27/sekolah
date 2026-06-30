@@ -31,35 +31,7 @@ class School extends Model
         return $this->hasMany(User::class);
     }
 
-    public function students()
-    {
-        return $this->hasMany(Student::class);
-    }
 
-    public function teachers()
-    {
-        return $this->hasMany(Teacher::class);
-    }
-
-    public function admissions()
-    {
-        return $this->hasMany(Admission::class);
-    }
-
-    public function facilities()
-    {
-        return $this->hasMany(Facility::class);
-    }
-
-    public function extracurriculars()
-    {
-        return $this->hasMany(Extracurricular::class);
-    }
-
-    public function achievements()
-    {
-        return $this->hasMany(Achievement::class);
-    }
 
     public function posts()
     {

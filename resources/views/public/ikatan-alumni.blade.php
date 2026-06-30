@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Ikatan Alumni - Portal Alumni SMK Negeri 1')
+@section('title', 'Ikatan Alumni - Portal Alumni ' . ($currentSchool->name ?? 'Sekolah'))
 
 @section('content')
 <div class="py-12 bg-slate-50">
@@ -14,7 +14,7 @@
                 <span class="text-slate-500">Ikatan Alumni</span>
             </nav>
             <h1 class="text-3xl font-extrabold tracking-tight text-blue-950">Ikatan Alumni (IKA)</h1>
-            <p class="text-sm text-slate-500 max-w-2xl">Organisasi resmi wadah persatuan, koordinasi, dan penyaluran aspirasi seluruh alumni SMK Negeri 1.</p>
+            <p class="text-sm text-slate-500 max-w-2xl">Organisasi resmi wadah persatuan, koordinasi, dan penyaluran aspirasi seluruh alumni {{ $currentSchool->name ?? 'Sekolah' }}.</p>
         </div>
 
         <!-- Profil Organisasi -->
@@ -25,10 +25,10 @@
                 </h2>
                 <div class="text-slate-600 text-sm space-y-4 leading-relaxed">
                     <p>
-                        Ikatan Alumni SMK Negeri 1 (IKA SMKN 1) dideklarasikan pada tahun 1990 sebagai tindak lanjut atas keinginan bersama mempererat tali kekeluargaan antarlulusan. Kami bertujuan menyatukan alumni dari berbagai generasi guna membentuk sinergi yang kuat, baik untuk kemajuan anggota maupun kemajuan almamater.
+                        Ikatan Alumni {{ $currentSchool->name ?? 'Sekolah' }} (IKA {{ $currentSchool->name ?? 'Sekolah' }}) dideklarasikan sebagai tindak lanjut atas keinginan bersama mempererat tali kekeluargaan antarlulusan. Kami bertujuan menyatukan alumni dari berbagai generasi guna membentuk sinergi yang kuat, baik untuk kemajuan anggota maupun kemajuan almamater.
                     </p>
                     <p>
-                        Sejak awal berdiri, IKA SMKN 1 aktif menyelenggarakan berbagai kegiatan sosial, reuni berkala, pembinaan karir bagi lulusan baru, serta penggalangan dana pembangunan beasiswa pendidikan siswa kurang mampu.
+                        Sejak awal berdiri, IKA {{ $currentSchool->name ?? 'Sekolah' }} aktif menyelenggarakan berbagai kegiatan sosial, reuni berkala, pembinaan karir bagi lulusan baru, serta penggalangan dana pembangunan beasiswa pendidikan siswa kurang mampu.
                     </p>
                 </div>
             </div>

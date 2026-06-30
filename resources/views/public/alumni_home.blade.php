@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Portal Ikatan Alumni - SMK Negeri 1')
+@section('title', 'Portal Ikatan Alumni - ' . ($currentSchool->name ?? 'Sekolah'))
 
 @section('content')
 <!-- Hero Section / Banner -->
@@ -18,7 +18,7 @@
                     <span class="text-blue-300">Kolaborasi & Berbagi</span>
                 </h1>
                 <p class="text-base sm:text-lg text-blue-100 max-w-xl leading-relaxed">
-                    Wadah silaturahmi seluruh keluarga besar alumni SMK Negeri 1. Bangun jaringan profesional, dapatkan info karir terbaru, dan berikan kontribusi terbaik Anda.
+                    Wadah silaturahmi seluruh keluarga besar alumni {{ $currentSchool->name ?? 'Sekolah' }}. Bangun jaringan profesional, dapatkan info karir terbaru, dan berikan kontribusi terbaik Anda.
                 </p>
                 <div class="flex flex-wrap gap-4 pt-2">
                     <a href="{{ route('register') }}" class="px-6 py-3.5 bg-white text-blue-900 hover:bg-slate-100 font-bold rounded-xl shadow-lg transition-all flex items-center gap-2">
@@ -58,10 +58,10 @@
                 </div>
                 <div class="space-y-3">
                     <span class="text-xs font-bold text-blue-600 uppercase tracking-widest">Sambutan Almamater</span>
-                    <h3 class="text-xl font-bold text-blue-950">Drs. H. Mulyono, M.Pd</h3>
-                    <p class="text-slate-500 text-xs italic leading-tight">Kepala Sekolah SMKN 1</p>
+                    <h3 class="text-xl font-bold text-blue-950">Kepala Sekolah</h3>
+                    <p class="text-slate-500 text-xs italic leading-tight">Kepala {{ $currentSchool->name ?? 'Sekolah' }}</p>
                     <p class="text-sm text-slate-600 leading-relaxed">
-                        "Sekolah selalu bangga atas dedikasi para alumni. Tetaplah terhubung untuk saling membagi inspirasi serta mendukung adik-adik kelas."
+                        "{{ $currentSchool->welcome_headmaster ?? 'Sekolah selalu bangga atas dedikasi para alumni. Tetaplah terhubung untuk saling membagi inspirasi serta mendukung adik-adik kelas.' }}"
                     </p>
                 </div>
             </div>
@@ -73,10 +73,10 @@
                 </div>
                 <div class="space-y-3">
                     <span class="text-xs font-bold text-blue-600 uppercase tracking-widest">Sambutan Pengurus</span>
-                    <h3 class="text-xl font-bold text-blue-950">Hendra Wijaya, S.T.</h3>
-                    <p class="text-slate-500 text-xs italic leading-tight">Ketua Umum Ikatan Alumni</p>
+                    <h3 class="text-xl font-bold text-blue-950">Ketua Ikatan Alumni</h3>
+                    <p class="text-slate-500 text-xs italic leading-tight">Ketua Umum Ikatan Alumni {{ $currentSchool->name ?? 'Sekolah' }}</p>
                     <p class="text-sm text-slate-600 leading-relaxed">
-                        "Mari kita pererat tali silaturahmi. Bersama-sama, kita bisa membangun ikatan yang saling mendukung kemajuan karir dan pembangunan sekolah."
+                        "{{ $currentSchool->welcome_alumni ?? 'Mari kita pererat tali silaturahmi. Bersama-sama, kita bisa membangun ikatan yang saling mendukung kemajuan karir.' }}"
                     </p>
                 </div>
             </div>

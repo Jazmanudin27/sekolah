@@ -136,147 +136,71 @@
                     <i class="fa-solid fa-graduation-cap"></i>
                 </span>
                 <div>
-                    @if ($isAlumni)
-                        <span class="block text-base font-bold leading-tight tracking-tight text-blue-900">PORTAL
-                            ALUMNI</span>
-                    @else
-                        <span
-                            class="block text-base font-bold leading-tight tracking-tight text-blue-900">{{ $currentSchool->name ?? 'SMK NEGERI 1' }}</span>
-                    @endif
+                    <span class="block text-base font-bold leading-tight tracking-tight text-blue-900">PORTAL ALUMNI</span>
                     <span
-                        class="block text-[10px] text-slate-500 uppercase tracking-widest font-semibold leading-none">{{ $currentSchool->name ?? 'SMK NEGERI 1' }}</span>
+                        class="block text-[10px] text-slate-500 uppercase tracking-widest font-semibold leading-none">{{ $currentSchool->name ?? 'DIREKTORI UTAMA' }}</span>
                 </div>
             </a>
 
             <!-- Desktop Nav -->
             @if (isset($currentSchool))
-                @if ($isAlumni)
-                    <!-- Desktop Alumni Nav -->
-                    <nav class="hidden lg:flex items-center gap-0.5">
-                        <a href="{{ route('alumni.home') }}"
-                            class="px-2 py-1.5 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('alumni.home') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-50' }}">Beranda
-                            Alumni</a>
+                <!-- Desktop Alumni Nav -->
+                <nav class="hidden lg:flex items-center gap-0.5">
+                    <a href="{{ route('home') }}"
+                        class="px-2 py-1.5 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('home') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-50' }}">Beranda</a>
 
-                        <a href="{{ route('alumni') }}"
-                            class="px-2 py-1.5 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('alumni*') && !request()->routeIs('alumni.home') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-50' }}">Direktori
-                            Alumni</a>
+                    <a href="{{ route('alumni') }}"
+                        class="px-2 py-1.5 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('alumni*') && !request()->routeIs('home') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-50' }}">Direktori
+                        Alumni</a>
 
-                        <!-- Kabar & Informasi Dropdown -->
-                        <div class="relative group">
-                            <button
-                                class="flex items-center gap-1 px-2 py-1.5 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-50 rounded-lg">
-                                Informasi <i class="fa-solid fa-chevron-down text-[10px]"></i>
-                            </button>
-                            <div
-                                class="absolute left-0 top-full pt-1 w-48 origin-top-left transition-all opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto z-50">
-                                <div class="rounded-xl bg-white p-1 shadow-lg ring-1 ring-black/5">
-                                    <a href="{{ route('berita') }}"
-                                        class="block px-2.5 py-1.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg">Berita
-                                        & Kegiatan</a>
-                                    <a href="{{ route('agenda') }}"
-                                        class="block px-2.5 py-1.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg">Agenda
-                                        Event</a>
-                                    <a href="{{ route('galeri') }}"
-                                        class="block px-2.5 py-1.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg">Galeri
-                                        Dokumentasi</a>
-                                </div>
+                    <!-- Kabar & Informasi Dropdown -->
+                    <div class="relative group">
+                        <button
+                            class="flex items-center gap-1 px-2 py-1.5 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-50 rounded-lg">
+                            Informasi <i class="fa-solid fa-chevron-down text-[10px]"></i>
+                        </button>
+                        <div
+                            class="absolute left-0 top-full pt-1 w-48 origin-top-left transition-all opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto z-50">
+                            <div class="rounded-xl bg-white p-1 shadow-lg ring-1 ring-black/5">
+                                <a href="{{ route('berita') }}"
+                                    class="block px-2.5 py-1.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg">Berita & Kegiatan</a>
+                                <a href="{{ route('agenda') }}"
+                                    class="block px-2.5 py-1.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg">Agenda Event</a>
+                                <a href="{{ route('galeri') }}"
+                                    class="block px-2.5 py-1.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg">Galeri Dokumentasi</a>
                             </div>
                         </div>
+                    </div>
 
-                        <a href="{{ route('karir-bisnis') }}"
-                            class="px-2 py-1.5 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('karir-bisnis*') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-50' }}">Karir
-                            & Bisnis</a>
+                    <a href="{{ route('karir-bisnis') }}"
+                        class="px-2 py-1.5 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('karir-bisnis*') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-50' }}">Karir & Bisnis</a>
 
-                        <!-- Komunitas & Sosial Dropdown -->
-                        <div class="relative group">
-                            <button
-                                class="flex items-center gap-1 px-2 py-1.5 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-50 rounded-lg">
-                                Sosial <i class="fa-solid fa-chevron-down text-[10px]"></i>
-                            </button>
-                            <div
-                                class="absolute left-0 top-full pt-1 w-48 origin-top-left transition-all opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto z-50">
-                                <div class="rounded-xl bg-white p-1 shadow-lg ring-1 ring-black/5">
-                                    <a href="{{ route('donasi') }}"
-                                        class="block px-2.5 py-1.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg">Penggalangan
-                                        Donasi</a>
-                                    <a href="{{ route('forum') }}"
-                                        class="block px-2.5 py-1.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg">Forum
-                                        Diskusi</a>
-                                    <a href="{{ route('kontak') }}"
-                                        class="block px-2.5 py-1.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg">Hubungi
-                                        Kontak</a>
-                                </div>
+                    <!-- Komunitas & Sosial Dropdown -->
+                    <div class="relative group">
+                        <button
+                            class="flex items-center gap-1 px-2 py-1.5 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-50 rounded-lg">
+                            Komunitas <i class="fa-solid fa-chevron-down text-[10px]"></i>
+                        </button>
+                        <div
+                            class="absolute left-0 top-full pt-1 w-48 origin-top-left transition-all opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto z-50">
+                            <div class="rounded-xl bg-white p-1 shadow-lg ring-1 ring-black/5">
+                                <a href="{{ route('donasi') }}"
+                                    class="block px-2.5 py-1.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg">Penggalangan Donasi</a>
+                                <a href="{{ route('forum') }}"
+                                    class="block px-2.5 py-1.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg">Forum Diskusi</a>
                             </div>
                         </div>
+                    </div>
 
-                        {{-- <a href="#"
-                            class="px-2 py-1.5 text-sm font-semibold text-blue-600 hover:text-blue-700 hover:bg-slate-50 rounded-lg transition-colors flex items-center gap-1"><i
-                                class="fa-solid fa-school"></i> Web Sekolah</a> --}}
-                    </nav>
-                @else
-                    <!-- Desktop School Nav -->
-                    <nav class="hidden lg:flex items-center gap-0.5">
-                        <a href="{{ route('home') }}"
-                            class="px-2 py-1.5 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('home') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-50' }}">Beranda</a>
+                    <a href="{{ route('profil') }}"
+                        class="px-2 py-1.5 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('profil') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-50' }}">Profil Almamater</a>
 
-                        <!-- Profil Dropdown -->
-                        <div class="relative group">
-                            <button
-                                class="flex items-center gap-1 px-2 py-1.5 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-50 rounded-lg">
-                                Profil <i class="fa-solid fa-chevron-down text-[10px]"></i>
-                            </button>
-                            <div
-                                class="absolute left-0 top-full pt-1 w-48 origin-top-left transition-all opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto z-50">
-                                <div class="rounded-xl bg-white p-1 shadow-lg ring-1 ring-black/5">
-                                    <a href="{{ route('profil') }}"
-                                        class="block px-2.5 py-1.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg">Profil
-                                        Sekolah</a>
-                                    <a href="{{ route('ikatan-alumni') }}"
-                                        class="block px-2.5 py-1.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg">Ikatan
-                                        Alumni</a>
-                                    <a href="{{ route('fasilitas') }}"
-                                        class="block px-2.5 py-1.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg">Fasilitas
-                                        Sekolah</a>
-                                    <a href="{{ route('ekstrakurikuler') }}"
-                                        class="block px-2.5 py-1.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg">Ekstrakurikuler</a>
-                                    <a href="{{ route('prestasi') }}"
-                                        class="block px-2.5 py-1.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg">Prestasi
-                                        Sekolah</a>
-                                </div>
-                            </div>
-                        </div>
+                    <a href="{{ route('ikatan-alumni') }}"
+                        class="px-2 py-1.5 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('ikatan-alumni') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-50' }}">Ikatan Alumni</a>
 
-                        <!-- Akademik & PPDB Dropdown -->
-                        <div class="relative group">
-                            <button
-                                class="flex items-center gap-1 px-2 py-1.5 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-slate-50 rounded-lg">
-                                Akademik <i class="fa-solid fa-chevron-down text-[10px]"></i>
-                            </button>
-                            <div
-                                class="absolute left-0 top-full pt-1 w-48 origin-top-left transition-all opacity-0 scale-95 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto z-50">
-                                <div class="rounded-xl bg-white p-1 shadow-lg ring-1 ring-black/5">
-                                    <a href="{{ route('ppdb') }}"
-                                        class="block px-2.5 py-1.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg">PPDB
-                                        Online</a>
-                                    <a href="{{ route('siswa') }}"
-                                        class="block px-2.5 py-1.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg">Data
-                                        Siswa</a>
-                                    <a href="{{ route('guru') }}"
-                                        class="block px-2.5 py-1.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg">Data
-                                        Guru</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <a href="{{ route('kontak') }}"
-                            class="px-2 py-1.5 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('kontak') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-50' }}">Hubungi
-                            Kami</a>
-
-                        <a href="{{ route('alumni.home') }}"
-                            class="px-2 py-1.5 text-sm font-semibold text-blue-600 hover:text-blue-700 hover:bg-slate-50 rounded-lg transition-colors flex items-center gap-1"><i
-                                class="fa-solid fa-graduation-cap"></i> Portal Alumni</a>
-                    </nav>
-                @endif
+                    <a href="{{ route('kontak') }}"
+                        class="px-2 py-1.5 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('kontak') ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:text-blue-600 hover:bg-slate-50' }}">Hubungi Kami</a>
+                </nav>
             @else
                 <nav class="hidden lg:flex items-center gap-0.5">
                     <a href="{{ route('portal.home') }}"
@@ -337,87 +261,41 @@
         <!-- Mobile Dropdown Nav -->
         <div id="mobile-menu"
             class="hidden lg:hidden border-t border-slate-100 bg-white px-4 py-3 space-y-1 shadow-inner">
-            @if ($isAlumni)
+            @if (isset($currentSchool))
                 <!-- Mobile Alumni Nav -->
-                <a href="{{ route('alumni.home') }}"
-                    class="block px-3 py-2 text-base font-medium rounded-lg text-slate-700 hover:bg-slate-50">Beranda
-                    Alumni</a>
-
-                <a href="{{ route('alumni') }}"
-                    class="block px-3 py-2 text-base font-medium rounded-lg text-slate-700 hover:bg-slate-50">Direktori
-                    Alumni</a>
-
-                <div class="px-3 py-1 text-xs font-semibold text-slate-400 uppercase tracking-wider mt-1">Informasi
-                </div>
-                <a href="{{ route('berita') }}"
-                    class="block pl-6 pr-3 py-1.5 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50">Berita
-                    & Kegiatan</a>
-                <a href="{{ route('agenda') }}"
-                    class="block pl-6 pr-3 py-1.5 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50">Agenda
-                    Event</a>
-                <a href="{{ route('galeri') }}"
-                    class="block pl-6 pr-3 py-1.5 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50">Galeri
-                    Dokumentasi</a>
-
-                <a href="{{ route('karir-bisnis') }}"
-                    class="block px-3 py-2 text-base font-medium rounded-lg text-slate-700 hover:bg-slate-50">Karir &
-                    Bisnis</a>
-
-                <div class="px-3 py-1 text-xs font-semibold text-slate-400 uppercase tracking-wider mt-1">Sosial &
-                    Komunitas</div>
-                <a href="{{ route('donasi') }}"
-                    class="block pl-6 pr-3 py-1.5 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50">Penggalangan
-                    Donasi</a>
-                <a href="{{ route('forum') }}"
-                    class="block pl-6 pr-3 py-1.5 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50">Forum
-                    Diskusi</a>
-                <a href="{{ route('kontak') }}"
-                    class="block pl-6 pr-3 py-1.5 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50">Hubungi
-                    Kontak</a>
-
-                {{-- <a href="#"
-                    class="block px-3 py-2 text-base font-bold text-blue-600 hover:bg-slate-50 rounded-lg"><i
-                        class="fa-solid fa-school mr-1.5"></i> Web Sekolah</a> --}}
-            @else
-                <!-- Mobile School Nav -->
                 <a href="{{ route('home') }}"
                     class="block px-3 py-2 text-base font-medium rounded-lg text-slate-700 hover:bg-slate-50">Beranda</a>
 
-                <div class="px-3 py-1 text-xs font-semibold text-slate-400 uppercase tracking-wider mt-1">Profil</div>
+                <a href="{{ route('alumni') }}"
+                    class="block px-3 py-2 text-base font-medium rounded-lg text-slate-700 hover:bg-slate-50">Direktori Alumni</a>
+
+                <div class="px-3 py-1 text-xs font-semibold text-slate-400 uppercase tracking-wider mt-1">Informasi</div>
+                <a href="{{ route('berita') }}"
+                    class="block pl-6 pr-3 py-1.5 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50">Berita & Kegiatan</a>
+                <a href="{{ route('agenda') }}"
+                    class="block pl-6 pr-3 py-1.5 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50">Agenda Event</a>
+                <a href="{{ route('galeri') }}"
+                    class="block pl-6 pr-3 py-1.5 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50">Galeri Dokumentasi</a>
+
+                <a href="{{ route('karir-bisnis') }}"
+                    class="block px-3 py-2 text-base font-medium rounded-lg text-slate-700 hover:bg-slate-50">Karir & Bisnis</a>
+
+                <div class="px-3 py-1 text-xs font-semibold text-slate-400 uppercase tracking-wider mt-1">Sosial & Komunitas</div>
+                <a href="{{ route('donasi') }}"
+                    class="block pl-6 pr-3 py-1.5 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50">Penggalangan Donasi</a>
+                <a href="{{ route('forum') }}"
+                    class="block pl-6 pr-3 py-1.5 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50">Forum Diskusi</a>
+
+                <div class="px-3 py-1 text-xs font-semibold text-slate-400 uppercase tracking-wider mt-1">Lainnya</div>
                 <a href="{{ route('profil') }}"
-                    class="block pl-6 pr-3 py-1.5 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50">Profil
-                    Sekolah</a>
+                    class="block pl-6 pr-3 py-1.5 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50">Profil Almamater</a>
                 <a href="{{ route('ikatan-alumni') }}"
-                    class="block pl-6 pr-3 py-1.5 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50">Ikatan
-                    Alumni</a>
-                <a href="{{ route('fasilitas') }}"
-                    class="block pl-6 pr-3 py-1.5 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50">Fasilitas
-                    Sekolah</a>
-                <a href="{{ route('ekstrakurikuler') }}"
-                    class="block pl-6 pr-3 py-1.5 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50">Ekstrakurikuler</a>
-                <a href="{{ route('prestasi') }}"
-                    class="block pl-6 pr-3 py-1.5 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50">Prestasi
-                    Sekolah</a>
-
-                <div class="px-3 py-1 text-xs font-semibold text-slate-400 uppercase tracking-wider mt-1">Akademik &
-                    PPDB</div>
-                <a href="{{ route('ppdb') }}"
-                    class="block pl-6 pr-3 py-1.5 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50">PPDB
-                    Online</a>
-                <a href="{{ route('siswa') }}"
-                    class="block pl-6 pr-3 py-1.5 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50">Data
-                    Siswa</a>
-                <a href="{{ route('guru') }}"
-                    class="block pl-6 pr-3 py-1.5 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50">Data
-                    Guru</a>
-
+                    class="block pl-6 pr-3 py-1.5 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50">Ikatan Alumni</a>
                 <a href="{{ route('kontak') }}"
-                    class="block px-3 py-2 text-base font-medium rounded-lg text-slate-700 hover:bg-slate-50">Hubungi
-                    Kami</a>
-
-                <a href="{{ route('alumni.home') }}"
-                    class="block px-3 py-2 text-base font-bold text-blue-600 hover:bg-slate-50 rounded-lg"><i
-                        class="fa-solid fa-graduation-cap mr-1.5"></i> Portal Alumni</a>
+                    class="block pl-6 pr-3 py-1.5 text-sm font-medium rounded-lg text-slate-600 hover:bg-slate-50">Hubungi Kami</a>
+            @else
+                <a href="{{ route('portal.home') }}"
+                    class="block px-3 py-2 text-base font-medium rounded-lg text-slate-700 hover:bg-slate-50">Kembali ke Direktori</a>
             @endif
 
             <div class="border-t border-slate-100 my-2 pt-2 flex flex-col gap-2">

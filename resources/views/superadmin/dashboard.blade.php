@@ -52,8 +52,6 @@
                                     </td>
                                     <td>
                                         <div class="d-flex flex-wrap gap-2">
-                                            <span class="badge bg-light text-dark border px-2 py-1"><i class="fa-solid fa-users text-secondary me-1"></i> {{ $school->students_count }} Siswa</span>
-                                            <span class="badge bg-light text-dark border px-2 py-1"><i class="fa-solid fa-user-tie text-secondary me-1"></i> {{ $school->teachers_count }} Guru</span>
                                             <span class="badge bg-light text-dark border px-2 py-1"><i class="fa-solid fa-user-graduate text-secondary me-1"></i> {{ $school->users_count }} Alumni</span>
                                         </div>
                                     </td>

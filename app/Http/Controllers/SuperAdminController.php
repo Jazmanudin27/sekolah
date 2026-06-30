@@ -9,7 +9,7 @@ class SuperAdminController extends Controller
 {
     public function index()
     {
-        $schools = School::withCount(['users', 'students', 'teachers'])->get();
+        $schools = School::withCount(['users'])->get();
         return view('superadmin.dashboard', compact('schools'));
     }
 
