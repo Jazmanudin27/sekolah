@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
         $school1 = School::create([
             'name' => 'SMK Negeri 1',
             'slug' => 'smkn1',
+            'domain' => 'smkn1.localhost',
             'logo' => null,
             'primary_color' => '#1e3a8a', // Blue
             'secondary_color' => '#3b82f6', // Light Blue
@@ -45,6 +46,7 @@ class DatabaseSeeder extends Seeder
         $school2 = School::create([
             'name' => 'MAN 2 KOTA TASIKMALAYA',
             'slug' => 'man2tasik',
+            'domain' => 'ikaman2.com',
             'logo' => null,
             'primary_color' => '#047857', // Emerald Green
             'secondary_color' => '#10b981', // Light Emerald

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
+            $table->string('domain')->nullable()->unique();
             $table->string('logo')->nullable();
             $table->string('primary_color')->default('#1e3a8a');
             $table->string('secondary_color')->default('#3b82f6');

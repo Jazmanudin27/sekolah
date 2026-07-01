@@ -24,7 +24,13 @@ class SchoolMiddleware
         
         $school = null;
         if (!$isCentral) {
-            $school = School::where('slug', $subdomain)->first();
+            // 1. Try resolving by custom domain mapping (e.g. ikaman2.com)
+            $school = School::where('domain', $host)->first();
+            
+            // 2. Try resolving by subdomain slug match (e.g. smkn1.localhost)
+            if (!$school) {
+                $school = School::where('slug', $subdomain)->first();
+            }
         }
         
         // Fallback to default school (ID = 1 or first school)
