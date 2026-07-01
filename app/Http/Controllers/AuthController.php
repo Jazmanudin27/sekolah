@@ -17,7 +17,7 @@ class AuthController extends Controller
             if ($user->role === 'superadmin') {
                 return redirect()->route('superadmin.dashboard');
             }
-            return redirect()->route('dashboard', ['school_slug' => $user->school->slug]);
+            return redirect()->route('dashboard');
         }
         return view('auth.login');
     }
@@ -38,10 +38,10 @@ class AuthController extends Controller
             }
 
             if ($user->role === 'admin_alumni') {
-                return redirect()->route('admin.dashboard', ['school_slug' => $user->school->slug])->with('success', 'Selamat datang di Panel Admin!');
+                return redirect()->route('admin.dashboard')->with('success', 'Selamat datang di Panel Admin!');
             }
 
-            return redirect()->route('dashboard', ['school_slug' => $user->school->slug])->with('success', 'Login berhasil!');
+            return redirect()->route('dashboard')->with('success', 'Login berhasil!');
         }
 
         return back()->withErrors([
@@ -56,7 +56,7 @@ class AuthController extends Controller
             if ($user->role === 'superadmin') {
                 return redirect()->route('superadmin.dashboard');
             }
-            return redirect()->route('dashboard', ['school_slug' => $user->school->slug]);
+            return redirect()->route('dashboard');
         }
         
         $schools = School::orderBy('name')->get();

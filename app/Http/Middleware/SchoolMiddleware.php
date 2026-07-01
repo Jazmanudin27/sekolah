@@ -5,7 +5,6 @@ namespace App\Http\Middleware;
 use Closure;
 use App\Models\School;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\URL;
 use Symfony\Component\HttpFoundation\Response;
 
 class SchoolMiddleware
@@ -15,13 +14,23 @@ class SchoolMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $slug = $request->route('school_slug');
-
-        if (!$slug) {
-            return $next($request);
+        $host = $request->getHost();
+        
+        // Extract subdomain (e.g. "smkn1" from "smkn1.localhost")
+        $subdomain = explode('.', $host)[0];
+        
+        // Exclude central patterns
+        $isCentral = in_array($subdomain, ['127', 'localhost', 'www', 'portal']);
+        
+        $school = null;
+        if (!$isCentral) {
+            $school = School::where('slug', $subdomain)->first();
         }
-
-        $school = School::where('slug', $slug)->first();
+        
+        // Fallback to default school (ID = 1 or first school)
+        if (!$school) {
+            $school = School::orderBy('id', 'asc')->first();
+        }
 
         if (!$school) {
             abort(404, 'Sekolah tidak ditemukan.');
@@ -32,9 +41,6 @@ class SchoolMiddleware
 
         // Store resolved school in request attributes for easy controller access
         $request->attributes->set('school', $school);
-
-        // Set route defaults so helper functions like route() automatically use the current school_slug
-        URL::defaults(['school_slug' => $school->slug]);
 
         return $next($request);
     }

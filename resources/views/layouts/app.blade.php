@@ -129,7 +129,7 @@
     <header class="sticky top-0 z-40 w-full border-b border-slate-100 bg-white/90 backdrop-blur-md">
         <div class="mx-auto flex max-w-7xl h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
             <!-- Brand Logo -->
-            <a href="{{ isset($currentSchool) ? route('home', ['school_slug' => $currentSchool->slug]) : route('portal.home') }}"
+            <a href="{{ route('home') }}"
                 class="flex items-center gap-2.5">
                 <span
                     class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white font-bold text-lg shadow-md shadow-blue-500/20">
@@ -214,13 +214,13 @@
             <div class="hidden lg:flex items-center gap-2">
                 @auth
                     @if (in_array(auth()->user()->role, ['superadmin', 'admin_alumni']))
-                        <a href="{{ auth()->user()->role === 'superadmin' ? route('superadmin.dashboard') : route('admin.dashboard', ['school_slug' => $resolvedSchoolSlug]) }}"
+                        <a href="{{ auth()->user()->role === 'superadmin' ? route('superadmin.dashboard') : route('admin.dashboard') }}"
                             class="flex items-center gap-1 text-xs font-semibold px-2 py-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-lg transition-colors">
                             <i class="fa-solid fa-lock"></i> Panel Admin
                         </a>
                     @endif
 
-                    <a href="{{ route('dashboard', ['school_slug' => $resolvedSchoolSlug]) }}"
+                    <a href="{{ route('dashboard') }}"
                         class="flex items-center gap-1.5 px-2 py-1 rounded-lg border border-slate-200 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors">
                         <img src="{{ auth()->user()->foto ?? 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100' }}"
                             alt="avatar" class="w-5 h-5 rounded-full object-cover">
@@ -245,7 +245,7 @@
             <!-- Mobile Menu Toggle Button -->
             <div class="flex items-center lg:hidden gap-3">
                 @auth
-                    <a href="{{ route('dashboard', ['school_slug' => $resolvedSchoolSlug]) }}"
+                    <a href="{{ route('dashboard') }}"
                         class="w-8 h-8 rounded-full border border-slate-200 overflow-hidden">
                         <img src="{{ auth()->user()->foto ?? 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100' }}"
                             alt="avatar" class="w-full h-full object-cover">
@@ -301,7 +301,7 @@
             <div class="border-t border-slate-100 my-2 pt-2 flex flex-col gap-2">
                 @auth
                     @if (in_array(auth()->user()->role, ['superadmin', 'admin_alumni']))
-                        <a href="{{ auth()->user()->role === 'superadmin' ? route('superadmin.dashboard') : route('admin.dashboard', ['school_slug' => $resolvedSchoolSlug]) }}"
+                        <a href="{{ auth()->user()->role === 'superadmin' ? route('superadmin.dashboard') : route('admin.dashboard') }}"
                             class="block text-center px-4 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold rounded-xl text-sm transition-colors">
                             <i class="fa-solid fa-lock"></i> Panel Admin
                         </a>

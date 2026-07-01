@@ -57,7 +57,17 @@
                                     </td>
                                     <td class="text-end">
                                         <div class="d-flex align-items-center justify-content-end gap-2">
-                                            <a href="{{ route('home', ['school_slug' => $school->slug]) }}" target="_blank" class="btn btn-light btn-sm text-secondary border px-2.5 rounded-3 d-flex align-items-center gap-1" style="font-size: 0.75rem;">
+                                            @php
+                                                $baseHost = request()->getHost();
+                                                foreach(\App\Models\School::all() as $s) {
+                                                    if (str_starts_with($baseHost, $s->slug . '.')) {
+                                                        $baseHost = substr($baseHost, strlen($s->slug . '.'));
+                                                        break;
+                                                    }
+                                                }
+                                                $schoolUrl = '//' . $school->slug . '.' . $baseHost . (request()->getPort() ? ':' . request()->getPort() : '');
+                                            @endphp
+                                            <a href="{{ $schoolUrl }}" target="_blank" class="btn btn-light btn-sm text-secondary border px-2.5 rounded-3 d-flex align-items-center gap-1" style="font-size: 0.75rem;">
                                                 <i class="fa-solid fa-arrow-up-right-from-square"></i> Kunjungi
                                             </a>
                                             <form action="{{ route('superadmin.school.delete', $school->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus sekolah ini? Seluruh data relasi terkait akan terhapus permanen.')">

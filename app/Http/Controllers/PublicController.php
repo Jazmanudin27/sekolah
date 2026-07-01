@@ -332,7 +332,7 @@ class PublicController extends Controller
             'school_id' => $school->id,
         ]);
 
-        return redirect()->route('forum.show', ['school_slug' => $school->slug, 'id' => $topic->id])->with('success', 'Topik diskusi berhasil dibuat.');
+        return redirect()->route('forum.show', ['id' => $topic->id])->with('success', 'Topik diskusi berhasil dibuat.');
     }
 
     public function submitForumReply(Request $request, $id)

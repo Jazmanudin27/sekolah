@@ -116,13 +116,19 @@
 
                     <!-- CTA Buttons -->
                     <div class="flex flex-col gap-3">
-                        <a href="{{ route('home', ['school_slug' => $school->slug]) }}"
+                        @php
+                            $baseHost = request()->getHost();
+                            foreach($schools as $s) {
+                                if (str_starts_with($baseHost, $s->slug . '.')) {
+                                    $baseHost = substr($baseHost, strlen($s->slug . '.'));
+                                    break;
+                                }
+                            }
+                            $schoolUrl = '//' . $school->slug . '.' . $baseHost . (request()->getPort() ? ':' . request()->getPort() : '');
+                        @endphp
+                        <a href="{{ $schoolUrl }}"
                             class="w-full text-center py-3 px-4 rounded-xl text-sm font-semibold text-white {{ $btnColor }} transition-all shadow-lg hover:shadow-xl">
-                            Masuk Web Sekolah
-                        </a>
-                        <a href="{{ route('alumni.home', ['school_slug' => $school->slug]) }}"
-                            class="w-full text-center py-3 px-4 rounded-xl text-sm font-semibold text-slate-300 hover:text-white bg-slate-700/30 hover:bg-slate-700/60 border border-slate-600/30 transition-all">
-                            Portal Alumni
+                            Masuk Portal Alumni
                         </a>
                     </div>
                 </div>
@@ -146,7 +152,10 @@
                 <div class="d-flex flex-wrap justify-content-center align-items-center gap-3">
                     <span class="text-sm text-slate-500"><i class="fa-solid fa-circle-info"></i> Login Admin:</span>
                     @foreach ($schools as $school)
-                        <a href="{{ route('login', ['school_slug' => $school->slug]) }}"
+                        @php
+                            $schoolLoginUrl = '//' . $school->slug . '.' . $baseHost . (request()->getPort() ? ':' . request()->getPort() : '') . '/login';
+                        @endphp
+                        <a href="{{ $schoolLoginUrl }}"
                             class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 rounded-xl text-xs font-semibold transition-colors">
                             {{ $school->name }}
                         </a>

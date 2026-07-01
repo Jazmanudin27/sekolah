@@ -5,24 +5,22 @@ use App\Http\Controllers\PublicController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\SchoolController;
-use App\Http\Controllers\AdminSchoolController;
 use App\Http\Controllers\SuperAdminController;
 
-// 1. Central Portal Landing Directory (No Tenant Scope)
-Route::get('/', [PublicController::class, 'portalHome'])->name('portal.home');
+// 1. Central Portal Landing Directory (Accessible via /portal)
+Route::middleware(['school'])->get('/portal', [PublicController::class, 'portalHome'])->name('portal.home');
 
-// 2. Tenant-Specific Routes (Grouped under /s/{school_slug})
-Route::middleware(['school'])->prefix('s/{school_slug}')->group(function () {
+// 2. Tenant-Specific Routes (Domain-based resolution)
+Route::middleware(['school'])->group(function () {
     
-    // Authentication Routes (School-specific)
+    // Authentication Routes
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    // Public Tenant Homepages
+    // Public Tenant Homepage
     Route::get('/', [PublicController::class, 'index'])->name('home');
     Route::get('/alumni-portal', function() {
         return redirect()->route('home');
@@ -92,54 +90,34 @@ Route::middleware(['school'])->prefix('s/{school_slug}')->group(function () {
         Route::get('/galeri', [AdminController::class, 'galeri'])->name('admin.galeri');
         Route::post('/galeri', [AdminController::class, 'submitGaleri'])->name('admin.galeri.submit');
         Route::delete('/galeri/{id}', [AdminController::class, 'deleteGaleri'])->name('admin.galeri.delete');
-
-
     });
 
-});
+    // Central Superadmin Routes (Manage all school tenants)
+    Route::middleware(['auth', 'superadmin'])->prefix('superadmin')->group(function () {
+        Route::get('/', [AdminController::class, 'index'])->name('superadmin.dashboard');
+        Route::get('/schools', [SuperAdminController::class, 'index'])->name('superadmin.schools');
+        Route::post('/schools', [SuperAdminController::class, 'submitSchool'])->name('superadmin.school.submit');
+        Route::delete('/schools/{id}', [SuperAdminController::class, 'deleteSchool'])->name('superadmin.school.delete');
 
-// 3. Global Auth Redirects (If accessing /login, /register, or /alumni-portal directly, redirect to Portal directory to choose school)
-Route::get('/login', function() {
-    return redirect()->route('portal.home')->with('info', 'Silakan pilih sekolah terlebih dahulu untuk masuk.');
-});
-Route::get('/register', function() {
-    return redirect()->route('portal.home')->with('info', 'Silakan pilih sekolah terlebih dahulu untuk mendaftar.');
-});
-Route::get('/alumni-portal', function() {
-    if (auth()->check() && auth()->user()->school) {
-        return redirect()->route('alumni.home', ['school_slug' => auth()->user()->school->slug]);
-    }
-    return redirect()->route('portal.home')->with('info', 'Silakan pilih sekolah terlebih dahulu untuk mengakses Portal Alumni.');
-});
-Route::post('/logout', [AuthController::class, 'logout'])->name('global.logout');
+        // Superadmin Tenant Data Management
+        Route::get('/alumni', [AdminController::class, 'alumni'])->name('superadmin.alumni');
+        Route::post('/alumni/{id}/verify', [AdminController::class, 'verifyAlumni'])->name('superadmin.alumni.verify');
+        Route::delete('/alumni/{id}', [AdminController::class, 'deleteAlumni'])->name('superadmin.alumni.delete');
 
-// 4. Central Superadmin Routes (Manage all school tenants)
-Route::middleware(['auth', 'superadmin'])->prefix('superadmin')->group(function () {
-    Route::get('/', [AdminController::class, 'index'])->name('superadmin.dashboard');
-    Route::get('/schools', [SuperAdminController::class, 'index'])->name('superadmin.schools');
-    Route::post('/schools', [SuperAdminController::class, 'submitSchool'])->name('superadmin.school.submit');
-    Route::delete('/schools/{id}', [SuperAdminController::class, 'deleteSchool'])->name('superadmin.school.delete');
+        Route::get('/berita', [AdminController::class, 'berita'])->name('superadmin.berita');
+        Route::post('/berita', [AdminController::class, 'submitBerita'])->name('superadmin.berita.submit');
+        Route::delete('/berita/{id}', [AdminController::class, 'deleteBerita'])->name('superadmin.berita.delete');
 
-    // Superadmin Tenant Data Management
-    Route::get('/alumni', [AdminController::class, 'alumni'])->name('superadmin.alumni');
-    Route::post('/alumni/{id}/verify', [AdminController::class, 'verifyAlumni'])->name('superadmin.alumni.verify');
-    Route::delete('/alumni/{id}', [AdminController::class, 'deleteAlumni'])->name('superadmin.alumni.delete');
+        Route::get('/event', [AdminController::class, 'event'])->name('superadmin.event');
+        Route::post('/event', [AdminController::class, 'submitEvent'])->name('superadmin.event.submit');
+        Route::delete('/event/{id}', [AdminController::class, 'deleteEvent'])->name('superadmin.event.delete');
 
-    Route::get('/berita', [AdminController::class, 'berita'])->name('superadmin.berita');
-    Route::post('/berita', [AdminController::class, 'submitBerita'])->name('superadmin.berita.submit');
-    Route::delete('/berita/{id}', [AdminController::class, 'deleteBerita'])->name('superadmin.berita.delete');
+        Route::get('/donasi', [AdminController::class, 'donasi'])->name('superadmin.donasi');
+        Route::post('/donasi', [AdminController::class, 'submitDonasi'])->name('superadmin.donasi.submit');
+        Route::delete('/donasi/{id}', [AdminController::class, 'deleteDonasi'])->name('superadmin.donasi.delete');
 
-    Route::get('/event', [AdminController::class, 'event'])->name('superadmin.event');
-    Route::post('/event', [AdminController::class, 'submitEvent'])->name('superadmin.event.submit');
-    Route::delete('/event/{id}', [AdminController::class, 'deleteEvent'])->name('superadmin.event.delete');
-
-    Route::get('/donasi', [AdminController::class, 'donasi'])->name('superadmin.donasi');
-    Route::post('/donasi', [AdminController::class, 'submitDonasi'])->name('superadmin.donasi.submit');
-    Route::delete('/donasi/{id}', [AdminController::class, 'deleteDonasi'])->name('superadmin.donasi.delete');
-
-    Route::get('/galeri', [AdminController::class, 'galeri'])->name('superadmin.galeri');
-    Route::post('/galeri', [AdminController::class, 'submitGaleri'])->name('superadmin.galeri.submit');
-    Route::delete('/galeri/{id}', [AdminController::class, 'deleteGaleri'])->name('superadmin.galeri.delete');
-
-
+        Route::get('/galeri', [AdminController::class, 'galeri'])->name('superadmin.galeri');
+        Route::post('/galeri', [AdminController::class, 'submitGaleri'])->name('superadmin.galeri.submit');
+        Route::delete('/galeri/{id}', [AdminController::class, 'deleteGaleri'])->name('superadmin.galeri.delete');
+    });
 });
