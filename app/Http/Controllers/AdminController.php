@@ -11,6 +11,7 @@ use App\Models\Gallery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -381,31 +382,89 @@ class AdminController extends Controller
             'school_id' => auth()->user()->role === 'superadmin' ? 'required|exists:schools,id' : 'nullable',
             'title' => 'required|string|max:255',
             'type' => 'required|in:foto,video',
-            'url' => 'required|url',
+            'url' => 'nullable|url',
+            'images' => 'nullable|array',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:10240',
             'category' => 'required|in:reuni,sosial,seminar,sekolah',
         ]);
 
         $schoolId = auth()->user()->role === 'superadmin' ? $request->school_id : $school->id;
 
-        $data = [
-            'title' => $request->title,
-            'type' => $request->type,
-            'url' => $request->url,
-            'category' => $request->category,
-            'school_id' => $schoolId,
-        ];
+        // Custom validation check
+        if ($request->type === 'video') {
+            if (!$request->url) {
+                return redirect()->back()->withErrors(['url' => 'Link / URL Video wajib diisi jika tipe media adalah Video.'])->withInput();
+            }
+        } else {
+            if (!$request->id && !$request->hasFile('images') && !$request->url) {
+                return redirect()->back()->withErrors(['images' => 'Pilih file foto untuk diunggah atau masukkan URL foto.'])->withInput();
+            }
+        }
 
         if ($request->id) {
+            // Edit Flow (Defensive implementation)
             if (auth()->user()->role === 'superadmin') {
                 $gallery = Gallery::findOrFail($request->id);
             } else {
                 $gallery = Gallery::where('school_id', $school->id)->findOrFail($request->id);
             }
-            $gallery->update($data);
+
+            $url = $request->url;
+            if ($request->type === 'foto' && $request->hasFile('images')) {
+                $images = $request->file('images');
+                if (count($images) > 0 && $images[0]->isValid()) {
+                    // Delete old file if stored locally
+                    $storageUrlPrefix = asset('storage');
+                    if (str_starts_with($gallery->url, $storageUrlPrefix)) {
+                        $relativePath = ltrim(substr($gallery->url, strlen($storageUrlPrefix)), '/');
+                        if (Storage::disk('public')->exists($relativePath)) {
+                            Storage::disk('public')->delete($relativePath);
+                        }
+                    }
+
+                    $path = $images[0]->store('galleries', 'public');
+                    $url = asset('storage/' . $path);
+                }
+            }
+
+            $gallery->update([
+                'title' => $request->title,
+                'type' => $request->type,
+                'url' => $url ?? $gallery->url,
+                'category' => $request->category,
+                'school_id' => $schoolId,
+            ]);
             $msg = 'Item galeri berhasil diperbarui.';
         } else {
-            Gallery::create($data);
-            $msg = 'Item galeri berhasil ditambahkan.';
+            // Create Flow
+            if ($request->type === 'foto' && $request->hasFile('images')) {
+                $uploadedCount = 0;
+                foreach ($request->file('images') as $image) {
+                    if ($image->isValid()) {
+                        $path = $image->store('galleries', 'public');
+                        $url = asset('storage/' . $path);
+
+                        Gallery::create([
+                            'title' => $request->title,
+                            'type' => 'foto',
+                            'url' => $url,
+                            'category' => $request->category,
+                            'school_id' => $schoolId,
+                        ]);
+                        $uploadedCount++;
+                    }
+                }
+                $msg = "$uploadedCount item galeri berhasil ditambahkan.";
+            } else {
+                Gallery::create([
+                    'title' => $request->title,
+                    'type' => $request->type,
+                    'url' => $request->url,
+                    'category' => $request->category,
+                    'school_id' => $schoolId,
+                ]);
+                $msg = 'Item galeri berhasil ditambahkan.';
+            }
         }
 
         return redirect()->back()->with('success', $msg);
@@ -419,6 +478,16 @@ class AdminController extends Controller
         } else {
             $gallery = Gallery::where('school_id', $school->id)->findOrFail($id);
         }
+
+        // Delete associated local file if it exists
+        $storageUrlPrefix = asset('storage');
+        if (str_starts_with($gallery->url, $storageUrlPrefix)) {
+            $relativePath = ltrim(substr($gallery->url, strlen($storageUrlPrefix)), '/');
+            if (Storage::disk('public')->exists($relativePath)) {
+                Storage::disk('public')->delete($relativePath);
+            }
+        }
+
         $gallery->delete();
 
         return redirect()->back()->with('success', 'Item galeri berhasil dihapus.');

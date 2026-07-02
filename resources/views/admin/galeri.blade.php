@@ -17,7 +17,18 @@
                     <i class="fa-solid fa-photo-film text-primary"></i> Unggah Item Galeri
                 </h5>
 
-                <form action="{{ route($routePrefix . 'galeri.submit') }}" method="POST" style="font-size: 0.8rem;">
+                @if ($errors->any())
+                    <div class="alert alert-danger p-3 rounded-3 mb-3 text-start" style="font-size: 0.8rem; line-height: 1.4;">
+                        <span class="font-weight-bold d-block mb-1 text-danger"><i class="fa-solid fa-triangle-exclamation"></i> Terjadi Kesalahan:</span>
+                        <ul class="mb-0 ps-3 text-danger-emphasis">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form action="{{ route($routePrefix . 'galeri.submit') }}" method="POST" enctype="multipart/form-data" style="font-size: 0.8rem;">
                     @csrf
                     <div class="d-flex flex-column gap-3">
                         @if (auth()->user()->role === 'superadmin')
@@ -36,32 +47,38 @@
                             <label class="form-label text-secondary text-uppercase font-semibold tracking-wider mb-1"
                                 style="font-size: 0.65rem; font-weight: 700;">Judul Item Dokumentasi</label>
                             <input type="text" name="title" required placeholder="Contoh: Keseruan Futsal"
-                                class="form-control form-control-sm rounded-3 py-2">
+                                class="form-control form-control-sm rounded-3 py-2" value="{{ old('title') }}">
                         </div>
                         <div>
                             <label class="form-label text-secondary text-uppercase font-semibold tracking-wider mb-1"
                                 style="font-size: 0.65rem; font-weight: 700;">Kategori Galeri</label>
                             <select name="category" class="form-select form-select-sm rounded-3 py-2">
-                                <option value="reuni">Kegiatan Reuni</option>
-                                <option value="sosial">Bakti Sosial</option>
-                                <option value="seminar">Seminar / Webinar</option>
-                                <option value="sekolah">Kegiatan Sekolah</option>
+                                <option value="reuni" {{ old('category') == 'reuni' ? 'selected' : '' }}>Kegiatan Reuni</option>
+                                <option value="sosial" {{ old('category') == 'sosial' ? 'selected' : '' }}>Bakti Sosial</option>
+                                <option value="seminar" {{ old('category') == 'seminar' ? 'selected' : '' }}>Seminar / Webinar</option>
+                                <option value="sekolah" {{ old('category') == 'sekolah' ? 'selected' : '' }}>Kegiatan Sekolah</option>
                             </select>
                         </div>
                         <div>
                             <label class="form-label text-secondary text-uppercase font-semibold tracking-wider mb-1"
                                 style="font-size: 0.65rem; font-weight: 700;">Tipe Media</label>
-                            <select name="type" class="form-select form-select-sm rounded-3 py-2">
-                                <option value="foto">Foto</option>
-                                <option value="video">Video</option>
+                            <select name="type" id="type-select" class="form-select form-select-sm rounded-3 py-2">
+                                <option value="foto" {{ old('type') == 'foto' ? 'selected' : '' }}>Foto</option>
+                                <option value="video" {{ old('type') == 'video' ? 'selected' : '' }}>Video</option>
                             </select>
                         </div>
-                        <div>
+                        <div id="file-upload-container">
                             <label class="form-label text-secondary text-uppercase font-semibold tracking-wider mb-1"
-                                style="font-size: 0.65rem; font-weight: 700;">Link / URL Sumber Foto atau Video</label>
-                            <input type="url" name="url" required
-                                placeholder="https://images.unsplash.com/... atau youtube link"
+                                style="font-size: 0.65rem; font-weight: 700;">Unggah File Foto (Bisa pilih banyak)</label>
+                            <input type="file" name="images[]" id="images-input" multiple accept="image/*"
                                 class="form-control form-control-sm rounded-3 py-2">
+                            <div class="form-text text-muted mt-1" style="font-size: 0.65rem;">Anda dapat memilih lebih dari satu foto. Format: JPEG, PNG, JPG, GIF, WebP. Maks 10MB per file.</div>
+                        </div>
+                        <div id="url-container">
+                            <label class="form-label text-secondary text-uppercase font-semibold tracking-wider mb-1" id="url-label"
+                                style="font-size: 0.65rem; font-weight: 700;">Link / URL Sumber Foto atau Video</label>
+                            <input type="url" name="url" id="url-input" placeholder="https://images.unsplash.com/... atau youtube link"
+                                class="form-control form-control-sm rounded-3 py-2" value="{{ old('url') }}">
                         </div>
                         <div class="pt-2">
                             <button type="submit"
@@ -184,4 +201,33 @@
         </div>
 
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const typeSelect = document.getElementById('type-select');
+            const fileUploadContainer = document.getElementById('file-upload-container');
+            const urlLabel = document.getElementById('url-label');
+            const urlInput = document.getElementById('url-input');
+            const imagesInput = document.getElementById('images-input');
+
+            function toggleFields() {
+                if (typeSelect.value === 'foto') {
+                    fileUploadContainer.style.display = 'block';
+                    urlLabel.innerHTML = 'Atau gunakan URL Foto (Opsional jika upload file)';
+                    urlInput.placeholder = 'https://images.unsplash.com/... (Opsional)';
+                    urlInput.removeAttribute('required');
+                } else if (typeSelect.value === 'video') {
+                    fileUploadContainer.style.display = 'none';
+                    imagesInput.value = ''; // Reset files
+                    urlLabel.innerHTML = 'Link / URL Video <span class="text-danger">*</span>';
+                    urlInput.placeholder = 'https://www.youtube.com/watch?v=... (Wajib)';
+                    urlInput.setAttribute('required', 'required');
+                }
+            }
+
+            typeSelect.addEventListener('change', toggleFields);
+            // Run once on load
+            toggleFields();
+        });
+    </script>
 @endsection
